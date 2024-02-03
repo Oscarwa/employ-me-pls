@@ -11,16 +11,12 @@ import "./home.css";
 import { JobDetail } from "../components/JobDetail";
 
 const outerJobs: Job[] = [
-  { id: 1, name: "Luxoft", status: "wishlist" },
   { id: 2, name: "Microsoft", status: "wishlist" },
   { id: 3, name: "Amazon", status: "wishlist" },
   { id: 4, name: "Meta", status: "wishlist" },
   { id: 5, name: "Google", status: "wishlist" },
   { id: 6, name: "Uber", status: "wishlist" },
-  { id: 7, name: "TikTok", status: "wishlist" },
-  { id: 8, name: "Twitch", status: "wishlist" },
   { id: 9, name: "Netflix", status: "wishlist" },
-  { id: 10, name: "Snapchat", status: "wishlist" },
   { id: 11, name: "Apple", status: "wishlist" },
   { id: 12, name: "Facebook", status: "wishlist" },
 ];

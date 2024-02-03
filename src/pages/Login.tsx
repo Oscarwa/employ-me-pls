@@ -28,15 +28,15 @@ export const Login: FC = () => {
       <main>
         <section>
           <div>
-            <p> FocusApp </p>
-
+            <h1>Employ me pls</h1>
+            <h3>Log in</h3>
             <form>
               <div>
-                <label htmlFor="email-address">Email address</label>
                 <input
                   id="email-address"
                   name="email"
                   type="email"
+                  className="field"
                   required
                   placeholder="Email address"
                   onChange={(e) => setEmail(e.target.value)}
@@ -44,11 +44,11 @@ export const Login: FC = () => {
               </div>
 
               <div>
-                <label htmlFor="password">Password</label>
                 <input
                   id="password"
                   name="password"
                   type="password"
+                  className="field"
                   required
                   placeholder="Password"
                   onChange={(e) => setPassword(e.target.value)}
@@ -56,7 +56,11 @@ export const Login: FC = () => {
               </div>
 
               <div>
-                <button type="button" onClick={() => onLogin()}>
+                <button
+                  type="button"
+                  style={{ width: "100%" }}
+                  onClick={() => onLogin()}
+                >
                   Login
                 </button>
               </div>

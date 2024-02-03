@@ -42,7 +42,7 @@ export const JobDetail: FC<JobDetailProps> = ({
           </div>
           <div className="body">
             <Formik
-              initialValues={job || { name: "" }}
+              initialValues={job || { id: null }}
               onSubmit={(values) => create(values as Job)}
             >
               {({ values, isSubmitting }) => {
@@ -106,7 +106,7 @@ export const JobDetail: FC<JobDetailProps> = ({
                       placeholder="Notes"
                     />
 
-                    <button type="submit" disabled={false}>
+                    <button type="submit" disabled={isSubmitting}>
                       {values.id ? "Update" : "Save"}
                     </button>
                   </Form>

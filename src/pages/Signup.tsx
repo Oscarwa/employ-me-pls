@@ -31,12 +31,14 @@ export const Signup: FC = () => {
       <section>
         <div>
           <div>
+            <h1>Employ me pls</h1>
+            <h3>Create your account</h3>
             <form>
               <div>
-                <label htmlFor="email-address">Email address</label>
                 <input
                   type="email"
                   value={email}
+                  className="field"
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   placeholder="Email address"
@@ -44,17 +46,21 @@ export const Signup: FC = () => {
               </div>
 
               <div>
-                <label htmlFor="password">Password</label>
                 <input
                   type="password"
                   value={password}
+                  className="field"
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   placeholder="Password"
                 />
               </div>
 
-              <button type="button" onClick={() => onSubmit()}>
+              <button
+                type="button"
+                style={{ width: "100%" }}
+                onClick={() => onSubmit()}
+              >
                 Sign up
               </button>
             </form>

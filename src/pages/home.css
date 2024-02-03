@@ -1,13 +1,28 @@
 .columns {
-    min-width: 800px;
+    min-width: 100vh;
     width: 100%;
     display: flex;
 }
 
 .col {
-    width: calc(100% / 4);
+    width: calc(100% / 5);
     padding: 4px;
     border: 1px solid #333;
     border-radius: 8px;
     min-height: 50vh;
 }
+
+.field {
+    display: inline-block;
+    width: 100%;
+    padding: 1em;
+    margin-bottom: 1.2em;
+    box-sizing: border-box;
+    border: 2px solid #555;
+    border-radius: 0.5em;
+    resize: vertical;
+}
+.field:focus {
+    background-color: #333;
+}
+

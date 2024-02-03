@@ -3,26 +3,15 @@ import { FC } from "react";
 import { useDrag } from "react-dnd";
 import { ItemTypes } from "../utils/DragTypes";
 
-import "./job.css";
-
-export type JobStatus =
-  | "wishlist"
-  | "applied"
-  | "interview"
-  | "offer"
-  | "rejected";
-
-export type Job = {
-  id: number;
-  title: string;
-  status?: JobStatus;
-};
+import "./jobcard.css";
+import { Job } from "../models/Job";
 
 type JobProps = {
   job: Job;
+  select: (job: Job) => void;
 };
 
-export const Job: FC<JobProps> = ({ job }) => {
+export const JobCard: FC<JobProps> = ({ job, select }) => {
   const [{ isDragging }, dragRef] = useDrag(() => ({
     type: ItemTypes.JOB,
     item: job,
@@ -33,8 +22,9 @@ export const Job: FC<JobProps> = ({ job }) => {
       className="job"
       ref={dragRef}
       style={{ opacity: isDragging ? 0.5 : 1 }}
+      onClick={() => select(job)}
     >
-      {job.title} {job.status}
+      {job.name} {job.status === "offer" ? "🎉" : null}
     </section>
   );
 };

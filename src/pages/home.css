@@ -1,0 +1,13 @@
+.columns {
+    min-width: 800px;
+    width: 100%;
+    display: flex;
+}
+
+.col {
+    width: calc(100% / 4);
+    padding: 4px;
+    border: 1px solid #333;
+    border-radius: 8px;
+    min-height: 50vh;
+}

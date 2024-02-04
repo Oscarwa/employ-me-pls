@@ -13,7 +13,7 @@ type Contact = {
 };
 
 export type Job = {
-  id: number;
+  id: string;
   name: string;
   status?: JobStatus;
   url?: string;

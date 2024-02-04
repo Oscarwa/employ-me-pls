@@ -3,12 +3,15 @@ import { Routes, Route } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { Signup } from "./pages/Signup";
 import { Login } from "./pages/Login";
+import { FirebaseAppProvider } from "reactfire";
+import { app } from "./firebase";
+
 import "./App.css";
 
 function App() {
   return (
-    <Router>
-      <div>
+    <FirebaseAppProvider firebaseApp={app}>
+      <Router>
         <section>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -16,8 +19,8 @@ function App() {
             <Route path="/login" element={<Login />} />
           </Routes>
         </section>
-      </div>
-    </Router>
+      </Router>
+    </FirebaseAppProvider>
   );
 }
 

@@ -37,7 +37,7 @@ export const Dashboard: FC<DashboardProps> = ({ user }) => {
 
   const upsertJob = (job: Job) => {
     if (job.id) {
-      const jobRef = doc(firestore, "jobs", job.id);
+      const jobRef = doc(firestore, user.uid, job.id);
       updateDoc(jobRef, job);
     } else {
       addDoc(jobsCollection, { ...job, status: "wishlist" });
@@ -59,7 +59,7 @@ export const Dashboard: FC<DashboardProps> = ({ user }) => {
         job={detail}
         show={showDetail}
         closeFn={closeModal}
-        create={upsertJob}
+        upsert={upsertJob}
       />
       <button onClick={showCreateJobModal}>Track new</button>
       <DndProvider backend={HTML5Backend}>

@@ -8,14 +8,14 @@ type JobDetailProps = {
   job: Job | null;
   show: boolean;
   closeFn: VoidFunction;
-  create: (job: Job) => void;
+  upsert: (job: Job) => void;
 };
 
 export const JobDetail: FC<JobDetailProps> = ({
   job,
   show,
   closeFn,
-  create,
+  upsert,
 }) => {
   useEffect(() => {
     const escClose = (code: string) => {
@@ -42,8 +42,8 @@ export const JobDetail: FC<JobDetailProps> = ({
           </div>
           <div className="body">
             <Formik
-              initialValues={job || { id: null }}
-              onSubmit={(values) => create(values as Job)}
+              initialValues={job || { id: null, status: "wishlist" }}
+              onSubmit={(values) => upsert(values as Job)}
             >
               {({ values, isSubmitting }) => {
                 return (
@@ -60,6 +60,13 @@ export const JobDetail: FC<JobDetailProps> = ({
                       name="url"
                       placeholder="URL"
                     />
+                    <Field className="field" as="select" name="status">
+                      <option value="wishlist">Wishlist</option>
+                      <option value="applied">Applied</option>
+                      <option value="interview">Interview</option>
+                      <option value="offer">Offer</option>
+                      <option value="rejected">Rejected</option>
+                    </Field>
                     <hr />
                     <Field
                       className="field"

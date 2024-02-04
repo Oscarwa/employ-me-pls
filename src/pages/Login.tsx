@@ -12,9 +12,9 @@ export const Login: FC = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
-        const user = userCredential.user;
+        const uuid = userCredential.user.uid;
+        console.info("User log in", uuid);
         navigate("/");
-        console.log(user);
       })
       .catch((error) => {
         const errorCode = error.code;

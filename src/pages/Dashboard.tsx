@@ -6,10 +6,15 @@ import { Job, JobStatus } from "../models/Job";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { useFirestore, useFirestoreCollectionData } from "reactfire";
 import { addDoc, collection, doc, query, updateDoc } from "firebase/firestore";
+import { User } from "firebase/auth";
 
-export const Dashboard: FC = () => {
+type DashboardProps = {
+  user: User;
+};
+
+export const Dashboard: FC<DashboardProps> = ({ user }) => {
   const firestore = useFirestore();
-  const jobsCollection = collection(firestore, "jobs");
+  const jobsCollection = collection(firestore, user.uid);
   const jobsQuery = query(jobsCollection);
   const { status, data } = useFirestoreCollectionData(jobsQuery, {
     idField: "id",
@@ -21,7 +26,7 @@ export const Dashboard: FC = () => {
   const [showDetail, setShowDetail] = useState(false);
 
   const updateJobStatus = (job: Job, status: JobStatus) => {
-    const jobRef = doc(firestore, "jobs", job.id);
+    const jobRef = doc(firestore, user.uid, job.id);
     updateDoc(jobRef, { ...job, status });
   };
 

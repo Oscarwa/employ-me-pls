@@ -20,13 +20,11 @@ export const Home: FC = () => {
       if (_user) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
-        const uid = _user.uid;
         setUser(_user);
-        console.log("uid", uid);
       } else {
         // User is signed out
         setUser(null);
-        console.log("user is logged out");
+        navigate("login");
       }
     });
   }, []);
@@ -35,7 +33,7 @@ export const Home: FC = () => {
     signOut(auth)
       .then(() => {
         // Sign-out successful.
-        navigate("/");
+        navigate("login");
         console.log("Signed out successfully");
       })
       .catch((error) => {
@@ -47,21 +45,15 @@ export const Home: FC = () => {
   return (
     <div>
       <div>
-        <NavLink to="./">Home: {user?.email || null}</NavLink>
-      </div>
-      <div>
-        <NavLink to="./login">Login</NavLink>
-      </div>
-      <div>
-        <NavLink to="./signup">Signup</NavLink>
+        <NavLink to="./">Hola: {user?.email || null}</NavLink>
       </div>
       <hr />
       <div>
         <button onClick={handleLogout}>Logout</button>
       </div>
-      <hr />
+
       <FirestoreProvider sdk={firestoreInstance}>
-        <Dashboard />
+        {user ? <Dashboard user={user} /> : null}
       </FirestoreProvider>
     </div>
   );

@@ -30,10 +30,14 @@ export const JobCard: FC<JobProps> = ({ job, select }) => {
       {job.interviewSteps ? (
         <div className="job-track">
           {job.interviewSteps?.map((s, idx) => (
-            <>
-              <div key={idx} className={s.completed ? "full" : ""}></div>
+            <div key={idx}>
+              <i
+                className={`fa-${s.completed ? "solid" : "regular"} fa-circle${
+                  s.completed ? "-dot" : ""
+                }`}
+              ></i>
               {idx < job.interviewSteps.length - 1 ? <span></span> : null}
-            </>
+            </div>
           ))}
         </div>
       ) : null}

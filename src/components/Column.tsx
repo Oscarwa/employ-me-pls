@@ -25,7 +25,9 @@ export const Column: FC<ColumnProps> = ({ type, jobs, update, select }) => {
       ref={drop}
       style={{ backgroundColor: isOver ? "#2A2A2A" : "inherit" }}
     >
-      <h3>{type}</h3>
+      <h3 className="fs-5 text-center bg-body-secondary py-2">
+        {type.toUpperCase()}
+      </h3>
       {jobs.map((j) => (
         <JobCard key={j.id} job={j} select={select} />
       ))}

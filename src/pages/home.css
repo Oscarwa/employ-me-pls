@@ -1,7 +1,8 @@
 .columns {
-    min-width: 100vh;
+    min-width: 1200px;
     width: 100%;
     display: flex;
+    overflow: auto;
 }
 
 .col {
@@ -9,13 +10,13 @@
     padding: 4px;
     border: 1px solid #333;
     border-radius: 8px;
-    min-height: 50vh;
+    min-height: 70vh;
 }
 
 .field {
     display: inline-block;
     width: 100%;
-    padding: 1em;
+    padding: 0.5em;
     margin-bottom: 1.2em;
     box-sizing: border-box;
     border: 2px solid #555;

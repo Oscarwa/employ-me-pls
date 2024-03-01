@@ -2,6 +2,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { FC, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
+import { Container } from "react-bootstrap";
 
 export const Signup: FC = () => {
   const navigate = useNavigate();
@@ -28,49 +29,48 @@ export const Signup: FC = () => {
 
   return (
     <main>
-      <section>
-        <div>
-          <div>
-            <h1>Employ me pls</h1>
-            <h3>Create your account</h3>
-            <form>
-              <div>
-                <input
-                  type="email"
-                  value={email}
-                  className="field"
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  placeholder="Email address"
-                />
-              </div>
+      <Container>
+        <div className="mt-5">
+          <h1>Employ me pls</h1>
+          <hr />
+          <h3>Create your account</h3>
+          <form>
+            <div>
+              <input
+                type="email"
+                value={email}
+                className="field"
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                placeholder="Email address"
+              />
+            </div>
 
-              <div>
-                <input
-                  type="password"
-                  value={password}
-                  className="field"
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  placeholder="Password"
-                />
-              </div>
+            <div>
+              <input
+                type="password"
+                value={password}
+                className="field"
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                placeholder="Password"
+              />
+            </div>
 
-              <button
-                type="button"
-                style={{ width: "100%" }}
-                onClick={() => onSubmit()}
-              >
-                Sign up
-              </button>
-            </form>
+            <button
+              type="button"
+              style={{ width: "100%" }}
+              onClick={() => onSubmit()}
+            >
+              Sign up
+            </button>
+          </form>
 
-            <p>
-              Already have an account? <NavLink to="/login">Sign in</NavLink>
-            </p>
-          </div>
+          <p>
+            Already have an account? <NavLink to="/login">Sign in</NavLink>
+          </p>
         </div>
-      </section>
+      </Container>
     </main>
   );
 };

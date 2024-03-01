@@ -5,7 +5,6 @@
     margin-bottom: 6px;
     cursor: pointer;
     min-height: 60px;
-    max-height: 100px;
     transition: all 0.5s ease;
 
     display: flex;
@@ -26,29 +25,29 @@
     border-radius: 4px;
 }
 
-.job .job-track div { 
+.job .job-track .step-circle { 
     position: relative;
     height: 14px;
     width: 14px;
     border: 1px solid #FFF;
     border-radius: 20px;
 }
-.job .job-track span {
+.job .job-track .step-circle span {
     display: block;
     flex:1;
     height: 8px;
     margin: 0 4px;
     border-bottom: 2px dashed #fff;
 }
-.job .job-track div.full::before {
+.job .job-track .step-circle.full::before {
     content: '';
     display: block;
     height: 8px;
     width: 8px;
     background-color: #FFF;
     border-radius: 15px;
-    margin-top: 3px;
-    margin-left: 3px;
+    margin-top: 2px;
+    margin-left: 2px;
 } 
 
 .job .job-info {

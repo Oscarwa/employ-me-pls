@@ -1,8 +1,9 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 
 import "./jobdetail.css";
 import { InterviewStep, Job } from "../models/Job";
 import { Field, FieldArray, Form, Formik } from "formik";
+import { Collapse } from "react-bootstrap";
 
 type JobDetailProps = {
   job: Job | null;
@@ -17,6 +18,7 @@ export const JobDetail: FC<JobDetailProps> = ({
   closeFn,
   upsert,
 }) => {
+  const [showContact, setShowContact] = useState(false);
   useEffect(() => {
     const escClose = (code: string) => {
       if (code === "Escape") {
@@ -29,8 +31,8 @@ export const JobDetail: FC<JobDetailProps> = ({
 
   return show ? (
     <>
-      <div className="modal blur"></div>
-      <div className="modal">
+      <div className="e-modal blur"></div>
+      <div className="e-modal">
         <div className="content">
           <div>
             <span className="close" onClick={closeFn}>
@@ -38,7 +40,7 @@ export const JobDetail: FC<JobDetailProps> = ({
             </span>
           </div>
           <div className="header">
-            <h3>{job ? `${job.name} Details` : "New job"}</h3>
+            <h3>{job ? job.name : "New job"}</h3>
           </div>
           <div className="body">
             <Formik
@@ -68,6 +70,12 @@ export const JobDetail: FC<JobDetailProps> = ({
                       name="url"
                       placeholder="URL"
                     />
+                    <Field
+                      className="field"
+                      type="text"
+                      name="salary"
+                      placeholder="Salary (or range)"
+                    />
                     <Field className="field" as="select" name="status">
                       <option value="wishlist">Wishlist</option>
                       <option value="applied">Applied</option>
@@ -76,37 +84,78 @@ export const JobDetail: FC<JobDetailProps> = ({
                       <option value="rejected">Rejected</option>
                     </Field>
                     <hr />
-                    <Field
-                      className="field"
-                      type="text"
-                      name="mainContact.name"
-                      placeholder="Contact name"
-                    />
-                    <Field
-                      className="field"
-                      type="phone"
-                      name="mainContact.phone"
-                      placeholder="Contact phone"
-                    />
-                    <Field
-                      className="field"
-                      type="email"
-                      name="mainContact.email"
-                      placeholder="Contact email"
-                    />
-                    <Field
-                      className="field"
-                      type="url"
-                      name="mainContact.website"
-                      placeholder="Contact website (LinkedIn profile)"
-                    />
+                    <div className="d-flex justify-content-between pb-2">
+                      <h3>
+                        Contact
+                        {values.mainContact?.name
+                          ? `: ${values.mainContact?.name}`
+                          : null}
+                      </h3>
+                      <button
+                        type="button"
+                        className="small"
+                        onClick={() => setShowContact(!showContact)}
+                      >
+                        {showContact ? (
+                          <i className="fa-solid fa-chevron-up"></i>
+                        ) : (
+                          <i className="fa-solid fa-chevron-down"></i>
+                        )}
+                      </button>
+                    </div>
+                    <Collapse in={showContact}>
+                      <div>
+                        <Field
+                          className="field"
+                          type="text"
+                          name="mainContact.name"
+                          placeholder="Contact name"
+                        />
+                        <Field
+                          className="field"
+                          type="phone"
+                          name="mainContact.phone"
+                          placeholder="Contact phone"
+                        />
+                        <Field
+                          className="field"
+                          type="email"
+                          name="mainContact.email"
+                          placeholder="Contact email"
+                        />
+                        <Field
+                          className="field"
+                          type="url"
+                          name="mainContact.website"
+                          placeholder="Contact website (LinkedIn profile)"
+                        />
+                      </div>
+                    </Collapse>
                     <hr />
 
-                    <h4>Job Interview Steps</h4>
                     <FieldArray name="interviewSteps">
                       {({ remove, push }) => {
                         return (
                           <div>
+                            <div className="d-flex justify-content-between align-items-center">
+                              <h4>Interview Steps</h4>
+                              <button
+                                type="button"
+                                className="small"
+                                onClick={() => {
+                                  if (!values.interviewSteps) {
+                                    values.interviewSteps = [];
+                                  }
+                                  push({
+                                    name: "",
+                                    completed: false,
+                                  } as InterviewStep);
+                                }}
+                              >
+                                <i className="fa-solid fa-plus me-2"></i>
+                                Step
+                              </button>
+                            </div>
                             {values.interviewSteps?.map((_s, idx) => (
                               <div className="interview-steps" key={idx}>
                                 <div className="interview-step-name">
@@ -124,43 +173,25 @@ export const JobDetail: FC<JobDetailProps> = ({
                                   />
                                   <label
                                     htmlFor={`interviewSteps[${idx}].completed`}
+                                    className="ms-1"
                                   >
                                     Completed?
                                   </label>
                                 </div>
                                 <button
                                   type="button"
+                                  className="small"
                                   onClick={() => remove(idx)}
                                 >
-                                  Delete
+                                  <i className="fa-solid fa-trash"></i>
                                 </button>
                               </div>
                             ))}
-                            <button
-                              type="button"
-                              onClick={() => {
-                                if (!values.interviewSteps) {
-                                  values.interviewSteps = [];
-                                }
-                                push({
-                                  name: "",
-                                  completed: false,
-                                } as InterviewStep);
-                              }}
-                            >
-                              Add step
-                            </button>
                           </div>
                         );
                       }}
                     </FieldArray>
                     <hr />
-                    <Field
-                      className="field"
-                      type="text"
-                      name="salary"
-                      placeholder="Salary (or range)"
-                    />
                     <Field
                       className="field"
                       as="textarea"
@@ -169,8 +200,15 @@ export const JobDetail: FC<JobDetailProps> = ({
                       placeholder="Notes"
                     />
 
-                    <button type="submit" disabled={isSubmitting}>
-                      {values.id ? "Update" : "Save"}
+                    <button
+                      className="w-100"
+                      type="submit"
+                      disabled={isSubmitting}
+                    >
+                      <>
+                        <i className="fa-solid fa-floppy-disk me-3"></i>
+                        {values.id ? "Update" : "Save"}
+                      </>
                     </button>
                   </Form>
                 );

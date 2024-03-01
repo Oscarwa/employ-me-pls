@@ -6,19 +6,17 @@ import { Login } from "./pages/Login";
 import { FirebaseAppProvider } from "reactfire";
 import { app } from "./firebase";
 
-import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
     <FirebaseAppProvider firebaseApp={app}>
       <Router>
-        <section>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
-          </Routes>
-        </section>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
       </Router>
     </FirebaseAppProvider>
   );

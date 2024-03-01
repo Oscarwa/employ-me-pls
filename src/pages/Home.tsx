@@ -8,6 +8,7 @@ import { FirestoreProvider } from "reactfire";
 import { Dashboard } from "./Dashboard";
 
 import "./home.css";
+import { Container, Navbar } from "react-bootstrap";
 
 export const Home: FC = () => {
   const firestoreInstance = getFirestore(useFirebaseApp());
@@ -44,14 +45,22 @@ export const Home: FC = () => {
 
   return (
     <div>
-      <div>
-        <NavLink to="./">Hola: {user?.email || null}</NavLink>
-      </div>
-      <hr />
-      <div>
-        <button onClick={handleLogout}>Logout</button>
-      </div>
-
+      <Navbar className="bg-body-tertiary px-3">
+        <Container className="d-flex justify-content-between">
+          <h2>
+            <NavLink to="./">Employ me pls</NavLink>
+          </h2>
+          <div>
+            <span className="d-none d-sm-inline-block">
+              Hola, {user?.email || null}!
+            </span>
+            <button className="ms-4 small" onClick={handleLogout}>
+              <i className="fa-solid fa-right-from-bracket me-3"></i>
+              Logout
+            </button>
+          </div>
+        </Container>
+      </Navbar>
       <FirestoreProvider sdk={firestoreInstance}>
         {user ? <Dashboard user={user} /> : null}
       </FirestoreProvider>

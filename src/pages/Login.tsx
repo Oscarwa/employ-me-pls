@@ -2,6 +2,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { FC, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
+import { Container } from "react-bootstrap";
 
 export const Login: FC = () => {
   const navigate = useNavigate();
@@ -26,9 +27,10 @@ export const Login: FC = () => {
   return (
     <>
       <main>
-        <section>
-          <div>
+        <Container>
+          <div className="mt-5">
             <h1>Employ me pls</h1>
+            <hr />
             <h3>Log in</h3>
             <form>
               <div>
@@ -58,7 +60,7 @@ export const Login: FC = () => {
               <div>
                 <button
                   type="button"
-                  style={{ width: "100%" }}
+                  className="w-100"
                   onClick={() => onLogin()}
                 >
                   Login
@@ -66,11 +68,11 @@ export const Login: FC = () => {
               </div>
             </form>
 
-            <p className="text-sm text-white text-center">
+            <p className="text-sm text-white">
               No account yet? <NavLink to="/signup">Sign up</NavLink>
             </p>
           </div>
-        </section>
+        </Container>
       </main>
     </>
   );

@@ -24,7 +24,22 @@ export const JobCard: FC<JobProps> = ({ job, select }) => {
       style={{ opacity: isDragging ? 0.5 : 1 }}
       onClick={() => select(job)}
     >
-      {job.name} {job.status === "offer" ? "🎉" : null}
+      <div>
+        {job.name} {job.status === "offer" ? "🎉" : null}
+      </div>
+      {job.interviewSteps ? (
+        <div className="job-track">
+          {job.interviewSteps?.map((s, idx) => (
+            <>
+              <div key={idx} className={s.completed ? "full" : ""}></div>
+              {idx < job.interviewSteps.length - 1 ? <span></span> : null}
+            </>
+          ))}
+        </div>
+      ) : null}
+      <div className="job-info">
+        {job.salary ? <div className="salary">{job.salary}</div> : null}
+      </div>
     </section>
   );
 };

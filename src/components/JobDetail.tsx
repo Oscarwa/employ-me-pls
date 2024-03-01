@@ -1,8 +1,8 @@
 import { FC, useEffect } from "react";
 
 import "./jobdetail.css";
-import { Job } from "../models/Job";
-import { Field, Form, Formik } from "formik";
+import { InterviewStep, Job } from "../models/Job";
+import { Field, FieldArray, Form, Formik } from "formik";
 
 type JobDetailProps = {
   job: Job | null;
@@ -42,7 +42,15 @@ export const JobDetail: FC<JobDetailProps> = ({
           </div>
           <div className="body">
             <Formik
-              initialValues={job || { id: null, status: "wishlist" }}
+              initialValues={
+                job ||
+                ({
+                  id: "",
+                  name: "",
+                  status: "wishlist",
+                  interviewSteps: [],
+                } as Job)
+              }
               onSubmit={(values) => upsert(values as Job)}
             >
               {({ values, isSubmitting }) => {
@@ -93,17 +101,65 @@ export const JobDetail: FC<JobDetailProps> = ({
                       placeholder="Contact website (LinkedIn profile)"
                     />
                     <hr />
+
+                    <h4>Job Interview Steps</h4>
+                    <FieldArray name="interviewSteps">
+                      {({ remove, push }) => {
+                        return (
+                          <div>
+                            {values.interviewSteps?.map((_s, idx) => (
+                              <div className="interview-steps" key={idx}>
+                                <div className="interview-step-name">
+                                  <Field
+                                    className="field"
+                                    name={`interviewSteps[${idx}].name`}
+                                    placeholder="Process step name"
+                                  />
+                                </div>
+                                <div className="interview-step-check">
+                                  <Field
+                                    type="checkbox"
+                                    id={`interviewSteps[${idx}].completed`}
+                                    name={`interviewSteps[${idx}].completed`}
+                                  />
+                                  <label
+                                    htmlFor={`interviewSteps[${idx}].completed`}
+                                  >
+                                    Completed?
+                                  </label>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() => remove(idx)}
+                                >
+                                  Delete
+                                </button>
+                              </div>
+                            ))}
+                            <button
+                              type="button"
+                              onClick={() => {
+                                if (!values.interviewSteps) {
+                                  values.interviewSteps = [];
+                                }
+                                push({
+                                  name: "",
+                                  completed: false,
+                                } as InterviewStep);
+                              }}
+                            >
+                              Add step
+                            </button>
+                          </div>
+                        );
+                      }}
+                    </FieldArray>
+                    <hr />
                     <Field
                       className="field"
                       type="text"
                       name="salary"
-                      placeholder="Salary"
-                    />
-                    <Field
-                      className="field"
-                      type="text"
-                      name="salaryRange"
-                      placeholder="Salary range"
+                      placeholder="Salary (or range)"
                     />
                     <Field
                       className="field"

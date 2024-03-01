@@ -12,12 +12,18 @@ type Contact = {
   website?: string;
 };
 
+export type InterviewStep = {
+  name: string;
+  completed: boolean;
+};
+
 export type Job = {
   id: string;
   name: string;
   status?: JobStatus;
   url?: string;
   mainContact?: Contact;
+  interviewSteps: InterviewStep[];
   salary?: number | [number, number];
   notes?: string;
   tags?: string[];

@@ -19,6 +19,7 @@ export const JobDetail: FC<JobDetailProps> = ({
   upsert,
 }) => {
   const [showContact, setShowContact] = useState(false);
+  const [showSteps, setShowSteps] = useState(false);
   useEffect(() => {
     const escClose = (code: string) => {
       if (code === "Escape") {
@@ -139,54 +140,75 @@ export const JobDetail: FC<JobDetailProps> = ({
                           <div>
                             <div className="d-flex justify-content-between align-items-center">
                               <h4>Interview Steps</h4>
-                              <button
-                                type="button"
-                                className="small"
-                                onClick={() => {
-                                  if (!values.interviewSteps) {
-                                    values.interviewSteps = [];
-                                  }
-                                  push({
-                                    name: "",
-                                    completed: false,
-                                  } as InterviewStep);
-                                }}
-                              >
-                                <i className="fa-solid fa-plus me-2"></i>
-                                Step
-                              </button>
-                            </div>
-                            {values.interviewSteps?.map((_s, idx) => (
-                              <div className="interview-steps" key={idx}>
-                                <div className="interview-step-name">
-                                  <Field
-                                    className="field"
-                                    name={`interviewSteps[${idx}].name`}
-                                    placeholder="Process step name"
-                                  />
-                                </div>
-                                <div className="interview-step-check">
-                                  <Field
-                                    type="checkbox"
-                                    id={`interviewSteps[${idx}].completed`}
-                                    name={`interviewSteps[${idx}].completed`}
-                                  />
-                                  <label
-                                    htmlFor={`interviewSteps[${idx}].completed`}
-                                    className="ms-1"
+                              <div>
+                                {showSteps ? (
+                                  <button
+                                    type="button"
+                                    className="small me-2"
+                                    onClick={() => {
+                                      if (!values.interviewSteps) {
+                                        values.interviewSteps = [];
+                                      }
+                                      push({
+                                        name: "",
+                                        completed: false,
+                                      } as InterviewStep);
+                                    }}
                                   >
-                                    Completed?
-                                  </label>
-                                </div>
+                                    <i className="fa-solid fa-plus me-2"></i>
+                                    Step
+                                  </button>
+                                ) : null}
                                 <button
                                   type="button"
                                   className="small"
-                                  onClick={() => remove(idx)}
+                                  onClick={() => setShowSteps(!showSteps)}
                                 >
-                                  <i className="fa-solid fa-trash"></i>
+                                  {showSteps ? (
+                                    <i className="fa-solid fa-chevron-up"></i>
+                                  ) : (
+                                    <i className="fa-solid fa-chevron-down"></i>
+                                  )}
                                 </button>
                               </div>
-                            ))}
+                            </div>
+                            <Collapse in={showSteps}>
+                              <div>
+                                {values.interviewSteps?.map((_s, idx) => (
+                                  <div className="interview-steps" key={idx}>
+                                    <div className="interview-step-name">
+                                      <Field
+                                        className="field"
+                                        name={`interviewSteps[${idx}].name`}
+                                        placeholder="Process step name"
+                                      />
+                                    </div>
+                                    <div className="interview-step-check">
+                                      <Field
+                                        type="checkbox"
+                                        id={`interviewSteps[${idx}].completed`}
+                                        name={`interviewSteps[${idx}].completed`}
+                                      />
+                                      <label
+                                        htmlFor={`interviewSteps[${idx}].completed`}
+                                        className="ms-1"
+                                      >
+                                        Completed?
+                                      </label>
+                                    </div>
+                                    <div>
+                                      <button
+                                        type="button"
+                                        className="small"
+                                        onClick={() => remove(idx)}
+                                      >
+                                        <i className="fa-solid fa-trash"></i>
+                                      </button>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </Collapse>
                           </div>
                         );
                       }}
@@ -195,7 +217,7 @@ export const JobDetail: FC<JobDetailProps> = ({
                     <Field
                       className="field"
                       as="textarea"
-                      rows={5}
+                      rows={3}
                       name="notes"
                       placeholder="Notes"
                     />

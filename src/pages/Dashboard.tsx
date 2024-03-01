@@ -70,9 +70,12 @@ export const Dashboard: FC<DashboardProps> = ({ user }) => {
         closeFn={closeModal}
         upsert={upsertJob}
       />
-      <button onClick={showCreateJobModal}>
-        <i className="fa-solid fa-plus me-3"></i>Track new
-      </button>
+      <header className="d-flex justify-content-between my-3">
+        <div></div>
+        <button className="" onClick={showCreateJobModal}>
+          <i className="fa-solid fa-plus me-3"></i>Track new application
+        </button>
+      </header>
       <DndProvider backend={HTML5Backend}>
         {status === "success" ? (
           <section className="overflow-auto">

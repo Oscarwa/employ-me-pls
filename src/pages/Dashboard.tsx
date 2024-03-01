@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useMemo, useState } from "react";
 import { JobDetail } from "../components/JobDetail";
 import { DndProvider } from "react-dnd";
 import { Column } from "../components/Column";
@@ -19,15 +19,23 @@ export const Dashboard: FC<DashboardProps> = ({ user }) => {
   const { status, data } = useFirestoreCollectionData(jobsQuery, {
     idField: "id",
   });
-
-  const jobs = data as Job[];
+  const jobs = useMemo(
+    () => ({
+      wishlist: data?.filter((j) => j.status === "wishlist") as Job[],
+      applied: data?.filter((j) => j.status === "applied") as Job[],
+      interview: data?.filter((j) => j.status === "interview") as Job[],
+      offer: data?.filter((j) => j.status === "offer") as Job[],
+      rejected: data?.filter((j) => j.status === "rejected") as Job[],
+    }),
+    [data]
+  );
 
   const [detail, setDetail] = useState<Job | null>(null);
   const [showDetail, setShowDetail] = useState(false);
 
   const updateJobStatus = (job: Job, status: JobStatus) => {
     const jobRef = doc(firestore, user.uid, job.id);
-    updateDoc(jobRef, { ...job, status });
+    updateDoc(jobRef, { status });
   };
 
   const selectJob = (job: Job) => {
@@ -67,31 +75,31 @@ export const Dashboard: FC<DashboardProps> = ({ user }) => {
           <section className="columns">
             <Column
               type="wishlist"
-              jobs={jobs.filter((j) => j.status === "wishlist")}
+              jobs={jobs.wishlist}
               update={updateJobStatus}
               select={selectJob}
             />
             <Column
               type="applied"
-              jobs={jobs?.filter((j) => j.status === "applied")}
+              jobs={jobs.applied}
               update={updateJobStatus}
               select={selectJob}
             />
             <Column
               type="interview"
-              jobs={jobs?.filter((j) => j.status === "interview")}
+              jobs={jobs.interview}
               update={updateJobStatus}
               select={selectJob}
             />
             <Column
               type="offer"
-              jobs={jobs?.filter((j) => j.status === "offer")}
+              jobs={jobs.offer}
               update={updateJobStatus}
               select={selectJob}
             />
             <Column
               type="rejected"
-              jobs={jobs?.filter((j) => j.status === "rejected")}
+              jobs={jobs.rejected}
               update={updateJobStatus}
               select={selectJob}
             />

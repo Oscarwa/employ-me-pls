@@ -15,7 +15,7 @@ export const Column: FC<ColumnProps> = ({ type, jobs, update, select }) => {
   const [{ isOver }, drop] = useDrop(() => ({
     accept: ItemTypes.JOB,
     drop: (e: Job) => {
-      update?.(e, type);
+      update(e, type);
     },
     collect: (monitor) => ({ isOver: !!monitor.isOver() }),
   }));
@@ -26,11 +26,9 @@ export const Column: FC<ColumnProps> = ({ type, jobs, update, select }) => {
       style={{ backgroundColor: isOver ? "#2A2A2A" : "inherit" }}
     >
       <h3>{type}</h3>
-      {jobs
-        .filter((j) => j.status === type)
-        .map((j) => (
-          <JobCard key={j.id} job={j} select={select} />
-        ))}
+      {jobs.map((j) => (
+        <JobCard key={j.id} job={j} select={select} />
+      ))}
     </div>
   );
 };

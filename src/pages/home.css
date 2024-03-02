@@ -23,6 +23,10 @@
     border-radius: 0.5em;
     resize: vertical;
 }
+input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+}
 .field:focus {
     background-color: #333;
 }

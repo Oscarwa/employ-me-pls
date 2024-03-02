@@ -12,6 +12,52 @@ type JobDetailProps = {
   upsert: (job: Job) => void;
 };
 
+const perkList = [
+  {
+    key: "healthInsurance",
+    icon: <i className="fa-solid fs-5 fa-stethoscope"></i>,
+  },
+  { key: "lifeInsurance", icon: <i className="fa-solid fs-5 fa-heart"></i> },
+  { key: "savingsFund", icon: <i className="fa-solid fs-5 fa-piggy-bank"></i> },
+  {
+    key: "vacations",
+    icon: <i className="fa-solid fs-5 fa-umbrella-beach"></i>,
+  },
+  {
+    key: "equity",
+    icon: <i className="fa-solid fs-5 fa-money-bill-trend-up"></i>,
+  },
+  {
+    key: "vacationPrime",
+    icon: <i className="fa-solid fs-5 fa-hand-holding-dollar"></i>,
+  },
+  { key: "dentalPlan", icon: <i className="fa-solid fs-5 fa-tooth"></i> },
+  { key: "visionPlan", icon: <i className="fa-solid fs-5 fa-glasses"></i> },
+  {
+    key: "homeOfficeSupport",
+    icon: <i className="fa-solid fs-5 fa-house-laptop"></i>,
+  },
+  { key: "bonuses", icon: <i className="fa-solid fs-5 fa-star"></i> },
+];
+
+const emptyPerks = {
+  healthInsurance: false,
+  lifeInsurance: false,
+  savingsFund: false,
+  vacations: false,
+  equity: false,
+  vacationPrime: false,
+  dentalPlan: false,
+  visionPlan: false,
+  homeOfficeSupport: false,
+  bonuses: false,
+};
+
+const perkDisplay = (perk: string) =>
+  perk
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/^./, (str: string) => str.toUpperCase());
+
 export const JobDetail: FC<JobDetailProps> = ({
   job,
   show,
@@ -20,6 +66,7 @@ export const JobDetail: FC<JobDetailProps> = ({
 }) => {
   const [showContact, setShowContact] = useState(false);
   const [showSteps, setShowSteps] = useState(false);
+  const [showBenefits, setShowBenefits] = useState(false);
   useEffect(() => {
     const escClose = (code: string) => {
       if (code === "Escape") {
@@ -41,7 +88,20 @@ export const JobDetail: FC<JobDetailProps> = ({
             </span>
           </div>
           <div className="header">
-            <h3>{job ? job.name : "New job"}</h3>
+            <h2>
+              {job ? (
+                <>
+                  {job.name}
+                  {job.url ? (
+                    <a href={`${job.url}`} target="_blank">
+                      <i className="fa-solid fa-arrow-up-right-from-square fs-4 ms-3"></i>
+                    </a>
+                  ) : null}
+                </>
+              ) : (
+                "New job application"
+              )}
+            </h2>
           </div>
           <div className="body">
             <Formik
@@ -52,6 +112,7 @@ export const JobDetail: FC<JobDetailProps> = ({
                   name: "",
                   status: "wishlist",
                   interviewSteps: [],
+                  perks: emptyPerks,
                 } as Job)
               }
               onSubmit={(values) => upsert(values as Job)}
@@ -86,12 +147,36 @@ export const JobDetail: FC<JobDetailProps> = ({
                     </Field>
                     <hr />
                     <div className="d-flex justify-content-between pb-2">
-                      <h3>
+                      <h4>
                         Contact
                         {values.mainContact?.name
                           ? `: ${values.mainContact?.name}`
                           : null}
-                      </h3>
+                        {values.mainContact?.email ? (
+                          <a
+                            href={`mailto:${values.mainContact.email}`}
+                            target="_blank"
+                          >
+                            <i className="fa-solid fa-envelope fs-5 ms-3"></i>
+                          </a>
+                        ) : null}
+                        {values.mainContact?.phone ? (
+                          <a
+                            href={`phone:${values.mainContact.phone}`}
+                            target="_blank"
+                          >
+                            <i className="fa-solid fa-phone fs-5 ms-3"></i>
+                          </a>
+                        ) : null}
+                        {values.mainContact?.website ? (
+                          <a
+                            href={`${values.mainContact.website}`}
+                            target="_blank"
+                          >
+                            <i className="fa-solid fa-arrow-up-right-from-square fs-5 ms-3"></i>
+                          </a>
+                        ) : null}
+                      </h4>
                       <button
                         type="button"
                         className="small"
@@ -213,6 +298,43 @@ export const JobDetail: FC<JobDetailProps> = ({
                         );
                       }}
                     </FieldArray>
+                    <hr />
+                    <div>
+                      <div className="d-flex justify-content-between align-items-center">
+                        <h4>Benefits and perks</h4>
+                        <div>
+                          <button
+                            type="button"
+                            className="small"
+                            onClick={() => setShowBenefits(!showBenefits)}
+                          >
+                            {showBenefits ? (
+                              <i className="fa-solid fa-chevron-up"></i>
+                            ) : (
+                              <i className="fa-solid fa-chevron-down"></i>
+                            )}
+                          </button>
+                        </div>
+                      </div>
+                      <Collapse in={showBenefits}>
+                        <div>
+                          {perkList.map(({ key: p, icon }) => (
+                            <div key={p}>
+                              <Field
+                                type="checkbox"
+                                id={`perks.${p}`}
+                                name={`perks.${p}`}
+                                // type="switch"
+                              />
+                              <label htmlFor={`perks.${p}`} className="ms-2">
+                                {icon}
+                                <span className="ps-2">{perkDisplay(p)}</span>
+                              </label>
+                            </div>
+                          ))}
+                        </div>
+                      </Collapse>
+                    </div>
                     <hr />
                     <Field
                       className="field"

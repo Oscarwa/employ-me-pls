@@ -27,4 +27,16 @@ export type Job = {
   salary?: number | [number, number];
   notes?: string;
   tags?: string[];
+  perks?: {
+    healthInsurance: boolean;
+    lifeInsurance: boolean;
+    savingsFund: boolean;
+    vacations: boolean;
+    equity: boolean;
+    vacationPrime: boolean;
+    dentalPlan: boolean;
+    visionPlan: boolean;
+    homeOfficeSupport: boolean;
+    bonuses: boolean;
+  };
 };

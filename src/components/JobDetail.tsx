@@ -158,7 +158,7 @@ export const JobDetail: FC<JobDetailProps> = ({
                     ) : null}
                     {values.mainContact?.phone ? (
                       <a
-                        href={`phone:${values.mainContact.phone}`}
+                        href={`tel:${values.mainContact.phone}`}
                         target="_blank"
                       >
                         <i className="fa-solid fa-phone fs-5 ms-3"></i>

@@ -49,7 +49,7 @@ export const Dashboard: FC<DashboardProps> = ({ user }) => {
       const jobRef = doc(firestore, user.uid, job.id);
       updateDoc(jobRef, job);
     } else {
-      addDoc(jobsCollection, { ...job, status: "wishlist" });
+      addDoc(jobsCollection, { ...job});
     }
     setShowDetail(false);
   };

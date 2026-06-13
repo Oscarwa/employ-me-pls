@@ -70,7 +70,7 @@ export const JobDetail: FC<JobDetailProps> = ({
   const [showBenefits, setShowBenefits] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
-  const confirmDeleteFn = () => {
+  const onDelete = () => {
     if (!confirmDelete) setConfirmDelete(true);
     else if (job?.id) {
       deleteFn(job.id);
@@ -354,7 +354,7 @@ export const JobDetail: FC<JobDetailProps> = ({
                       variant="danger"
                       className="w-100"
                       onClick={
-                        () => confirmDeleteFn()
+                        () => onDelete()
                         }>
                       <>
                         <i className="fa-solid fa-trash me-3"></i>

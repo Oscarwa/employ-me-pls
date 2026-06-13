@@ -5,7 +5,7 @@ import { Column } from "../components/Column";
 import { Job, JobStatus } from "../models/Job";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { useFirestore, useFirestoreCollectionData } from "reactfire";
-import { addDoc, collection, doc, query, updateDoc } from "firebase/firestore";
+import { addDoc, deleteDoc, collection, doc, query, updateDoc } from "firebase/firestore";
 import { User } from "firebase/auth";
 import { Container } from "react-bootstrap";
 
@@ -54,6 +54,12 @@ export const Dashboard: FC<DashboardProps> = ({ user }) => {
     setShowDetail(false);
   };
 
+  const deleteJob = (jobId: string) => {
+    const jobRef = doc(firestore, user.uid, jobId);
+    deleteDoc(jobRef);
+    closeModal();
+  }
+
   const showCreateJobModal = () => {
     setDetail(null);
     setShowDetail(true);
@@ -64,12 +70,12 @@ export const Dashboard: FC<DashboardProps> = ({ user }) => {
   };
   return (
     <Container>
-      <JobDetail
+      {showDetail && <JobDetail
         job={detail}
-        show={showDetail}
         closeFn={closeModal}
         upsert={upsertJob}
-      />
+        deleteFn={deleteJob}
+      />}
       <header className="d-flex justify-content-between my-3">
         <div></div>
         <button className="" onClick={showCreateJobModal}>

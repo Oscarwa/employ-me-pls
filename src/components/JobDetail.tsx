@@ -3,13 +3,13 @@ import { FC, useEffect, useState } from "react";
 import "./jobdetail.css";
 import { InterviewStep, Job } from "../models/Job";
 import { Field, FieldArray, Form, Formik } from "formik";
-import { Collapse, Modal } from "react-bootstrap";
+import { Button, Collapse, Modal } from "react-bootstrap";
 
 type JobDetailProps = {
   job: Job | null;
-  show: boolean;
   closeFn: VoidFunction;
   upsert: (job: Job) => void;
+  deleteFn: (jobId: string) => void;
 };
 
 const perkList = [
@@ -53,6 +53,7 @@ const emptyPerks = {
   bonuses: false,
 };
 
+
 const perkDisplay = (perk: string) =>
   perk
     .replace(/([a-z])([A-Z])/g, "$1 $2")
@@ -60,13 +61,23 @@ const perkDisplay = (perk: string) =>
 
 export const JobDetail: FC<JobDetailProps> = ({
   job,
-  show,
   closeFn,
   upsert,
+  deleteFn,
 }) => {
   const [showContact, setShowContact] = useState(false);
   const [showSteps, setShowSteps] = useState(false);
   const [showBenefits, setShowBenefits] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+
+  const confirmDeleteFn = () => {
+    if (!confirmDelete) setConfirmDelete(true);
+    else if (job?.id) {
+      deleteFn(job.id);
+      setConfirmDelete(false);
+    }
+  };
+
   useEffect(() => {
     const escClose = (code: string) => {
       if (code === "Escape") {
@@ -77,7 +88,7 @@ export const JobDetail: FC<JobDetailProps> = ({
     return document.removeEventListener("keyup", (e) => escClose(e.code));
   }, [closeFn]);
 
-  return show ? (
+  return (
     <Modal show={true} size="lg" style={{ maxWidth: "100vw" }} onHide={closeFn}>
       <Modal.Header closeButton>
         <Modal.Title>
@@ -328,20 +339,36 @@ export const JobDetail: FC<JobDetailProps> = ({
                   placeholder="Notes"
                 />
 
-                <button className="w-100" type="submit" disabled={isSubmitting}>
+                <Button
+                  variant="primary"
+                  className="w-100"
+                  type="submit"
+                  disabled={isSubmitting}>
                   <>
                     <i className="fa-solid fa-floppy-disk me-3"></i>
                     {values.id ? "Update" : "Save"}
                   </>
-                </button>
+                </Button>
+                {
+                  job?.id && 
+                    <Button
+                      variant="danger"
+                      className="w-100"
+                      type="button"
+                      onClick={
+                        () => confirmDeleteFn()
+                        }>
+                      <>
+                        <i className="fa-solid fa-trash me-3"></i>
+                        {confirmDelete ? "Confirm Delete?" : "Delete"}
+                      </>
+                    </Button>
+                }
               </Form>
             );
           }}
         </Formik>
       </Modal.Body>
-
-      {/* <Modal.Footer>
-        </Modal.Footer> */}
     </Modal>
-  ) : null;
+  );
 };

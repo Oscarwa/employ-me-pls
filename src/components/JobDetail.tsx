@@ -338,7 +338,7 @@ export const JobDetail: FC<JobDetailProps> = ({
                   name="notes"
                   placeholder="Notes"
                 />
-
+                <div className="d-grid gap-2">
                 <Button
                   variant="primary"
                   className="w-100"
@@ -354,7 +354,6 @@ export const JobDetail: FC<JobDetailProps> = ({
                     <Button
                       variant="danger"
                       className="w-100"
-                      type="button"
                       onClick={
                         () => confirmDeleteFn()
                         }>
@@ -364,6 +363,7 @@ export const JobDetail: FC<JobDetailProps> = ({
                       </>
                     </Button>
                 }
+                </div>
               </Form>
             );
           }}

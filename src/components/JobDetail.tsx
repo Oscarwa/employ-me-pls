@@ -74,7 +74,6 @@ export const JobDetail: FC<JobDetailProps> = ({
     if (!confirmDelete) setConfirmDelete(true);
     else if (job?.id) {
       deleteFn(job.id);
-      setConfirmDelete(false);
     }
   };
 
